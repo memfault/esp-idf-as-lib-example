@@ -1,0 +1,25 @@
+# Simple workflow that builds on esp-idf v5.1.1
+
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: espressif/idf:v5.1.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Build the project
+        run: |
+          . ${IDF_PATH}/export.sh
+          ./just.sh
