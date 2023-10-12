@@ -12,7 +12,13 @@ endif()
 # Include for ESP-IDF build system functions
 include($ENV{IDF_PATH}/tools/cmake/idf.cmake)
 
-get_filename_component(memfault_firmare_sdk_dir ${CMAKE_CURRENT_LIST_DIR}/memfault-firmware-sdk ABSOLUTE)
+# If the MEMFAULT_FW_SDK environment variable is set, use that as the path to the SDK
+# Otherwise, assume the SDK is a sibling directory to the project
+if(DEFINED ENV{MEMFAULT_FW_SDK})
+    get_filename_component(memfault_firmare_sdk_dir $ENV{MEMFAULT_FW_SDK} ABSOLUTE)
+else()
+    get_filename_component(memfault_firmare_sdk_dir ${CMAKE_CURRENT_LIST_DIR}/memfault-firmware-sdk ABSOLUTE)
+endif()
 
 # Instead of using the "main" component as in an idf.py component-style
 # project, inject one additional component dependency for the "memfault"
