@@ -46,6 +46,13 @@ add_executable(${elf_file} main.c)
 
 # Link the static libraries to the executable
 target_link_libraries(${elf_file} idf::freertos idf::spi_flash)
+
+# Component-style projects get this automatically. An as-lib project needs to
+# pick it up explicitly. See here for other potentially needed items:
+# https://github.com/espressif/esp-idf/blob/v5.1.1/tools/cmake/component.cmake#L453-L468
+idf_build_get_property(compile_definitions COMPILE_DEFINITIONS GENERATOR_EXPRESSION)
+add_compile_definitions("${compile_definitions}")
+
 # Attach additional targets to the executable file for flashing,
 # linker script generation, partition_table generation, etc.
 idf_build_executable(${elf_file})
